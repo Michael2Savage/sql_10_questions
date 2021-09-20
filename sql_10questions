@@ -1,0 +1,66 @@
+-- 1. How many actors are there with the last name ‘Wahlberg’? 
+SELECT DISTINCT COUNT(*)
+FROM actor
+WHERE last_name LIKE 'Wahlberg';
+-- 1. 2 actors with this last name.
+
+-- 2. How many payments were made between $3.99 and $5.99? 
+SELECT COUNT(*)
+FROM payment
+WHERE amount > 3.98 AND amount < 6.00;
+-- 2. There were 5,607 payments for amounts between $3.99 and $5.99.
+
+-- 3. What film does the store have the most of? (search in inventory) 
+SELECT film_id, COUNT(film_id) AS number_of_copies
+FROM inventory
+GROUP BY film_id
+ORDER BY COUNT(film_id) DESC;
+-- 3. Asuming the fil_id is the catagory that is unique for each title, there are 72 titles that the store holds 8 copies of.
+
+-- 4. How many customers have the last name ‘William’? 
+SELECT *
+FROM customer
+WHERE last_name LIKE 'William';
+-- 4. There are no customers in our customer table with the last name 'William'.
+
+-- 5. What store employee (get the id) sold the most rentals? 
+SELECT staff_id, COUNT(staff_id) AS number_of_sales
+FROM rental
+GROUP BY staff_id
+ORDER BY COUNT(staff_id) DESC;
+-- 5. staff_id employee 1 sold the most rentals at a total of 8,040 sales.
+
+-- 6. How many different district names are there? 
+SELECT COUNT(DISTINCT district)
+FROM address;
+-- 6. There are 378 distinct districts.
+
+-- 7. What film has the most actors in it? (use film_actor table and get film_id) 
+SELECT *
+FROM film_actor
+ORDER BY actor_id DESC;
+-- 7. The most actors in a film is 200 actors but there are exactly 20 films with this many actors in it. First on the list is film_id(5)
+
+-- 8. From store_id 1, how many customers have a last name ending with ‘es’? (use customer table)
+SELECT COUNT(customer_id)
+FROM customer
+WHERE store_id = 1 
+AND last_name LIKE '%es';
+-- 8. There are 13 last names that end in 'es' from the store_1 customer base.
+
+-- 9. How many payment amounts (4.99, 5.99, etc.) had a number of rentals above 250 for customers  with ids between 380 and 430? (use group by and having > 250)
+SELECT amount, COUNT(amount) AS number_of_payments
+FROM payment
+WHERE customer_id > 379 AND customer_id < 431
+GROUP BY amount
+ORDER BY COUNT(amount) DESC;
+-- 9. There are 3 payment amounts that qualify: $2.99, $4.99, and $0.99.
+
+-- 10. Within the film table, how many rating categories are there? And what rating has the most movies total?
+SELECT COUNT(DISTINCT rating)
+FROM film;
+
+SELECT MAX(rating)
+FROM film;
+
+-- 10. There are 5 rating catagories and NC-17 has the most film titles.
